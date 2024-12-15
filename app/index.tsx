@@ -34,7 +34,9 @@ const Welcome = () => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
       <Animated.View entering={FadeInUp.duration(500).delay(300).springify()}>
-        <Pressable onPress={handlePress}>
+        <Pressable
+        //onPress={handlePress} //STOP the animation
+        >
           <LottieView
             ref={animationRef}
             source={require("@/assets/animations/discoverAnimation.json")}
@@ -67,7 +69,7 @@ const Welcome = () => {
         </Text>
       </Animated.View>
 
-      <Animated.View entering={FadeInUp.duration(500).delay(1500).springify()}>
+      <Animated.View entering={FadeInUp.duration(500).delay(500).springify()}>
         <MainButton
           onPress={() => router.push("/(tabs)")}
           text="Explore"

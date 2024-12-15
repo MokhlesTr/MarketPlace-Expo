@@ -2,6 +2,7 @@ import {
   Button,
   FlatList,
   Pressable,
+  ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -20,7 +21,12 @@ import LottieView from "lottie-react-native";
 import MainInput from "@/components/MainInput";
 import { DarkTheme, DefaultTheme } from "@react-navigation/native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+import axios from "axios";
+import { Image } from "expo-image";
+import { useNavigation } from "@react-navigation/native"; // Import useNavigation hook
+
 const Home = () => {
+  const navigation = useNavigation();
   const animationRef = useRef<LottieView>(null);
   const isPaused = useRef(false);
 
@@ -97,6 +103,21 @@ const Home = () => {
     },
   ];
 
+  const [product, setProduct] = useState([]);
+
+  const fetchProduct = async () => {
+    try {
+      const res = await axios.get("https://api.escuelajs.co/api/v1/products");
+      setProduct(res.data.slice(0, 46)); // Use `res.data` to extract the actual array of products
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchProduct();
+  }, []);
+
   return (
     <View style={{ flex: 1 }}>
       {/* header */}
@@ -135,9 +156,7 @@ const Home = () => {
             </Text>
           </View>
           <View>
-            <Animated.View
-              entering={FadeInUp.duration(500).delay(2000).springify()}
-            >
+            <Animated.View entering={FadeInUp.delay(500).springify()}>
               <Pressable onPress={handlePress}>
                 <LottieView
                   ref={animationRef}
@@ -169,98 +188,249 @@ const Home = () => {
           {/* </Animated.View> */}
         </View>
       </View>
-      <View style={{ paddingHorizontal: wp("5%"), paddingTop: hp("3%") }}>
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <Text
-            style={{
-              fontSize: hp("2.5"),
-              color: colorScheme === "dark" ? "white" : "black",
-            }}
-          >
-            Explore Topics
-          </Text>
-
-          <Text
-            style={{
-              fontSize: hp("1.5"),
-              paddingTop: hp("1%"),
-              color: "grey",
-            }}
-          >
-            View All
-          </Text>
-        </View>
-      </View>
-      <View
-        style={{
-          paddingHorizontal: wp("5%"),
-        }}
-      >
-        <FlatList
-          data={Topics}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          ItemSeparatorComponent={() => (
-            <View style={{ marginHorizontal: wp("1%") }} />
-          )}
-          keyExtractor={(item, index) => index.toString()}
-          renderItem={({ item }) => (
-            <TouchableOpacity
-              onPress={() => setSelectedTopic(item.name)}
-              style={{ alignItems: "center" }}
+      <ScrollView>
+        <View style={{ paddingBottom: hp("10%") }}>
+          <View style={{ paddingHorizontal: wp("5%"), paddingTop: hp("3%") }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
             >
-              <View
-                style={{
-                  borderWidth: wp("0.25%"),
-                  height: hp("10%"),
-                  width: hp("10%"),
-                  borderRadius: wp("50%"),
-                  borderColor:
-                    selectedTopic === item.name
-                      ? colorScheme === "dark"
-                        ? "#a9c700"
-                        : "blue"
-                      : "grey",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  marginVertical: hp("2%"),
-                }}
-              >
-                <Ionicons
-                  name={item.icon as any}
-                  size={wp("10%")}
-                  color={
-                    selectedTopic === item.name
-                      ? colorScheme === "dark"
-                        ? "#a9c700"
-                        : "blue"
-                      : "grey"
-                  }
-                />
-              </View>
               <Text
                 style={{
-                  fontWeight: selectedTopic === item.name ? "700" : "300",
-                  color:
-                    selectedTopic === item.name
-                      ? colorScheme === "dark"
-                        ? "#a9c700"
-                        : "blue"
-                      : "grey",
+                  fontSize: hp("2.5"),
+                  color: colorScheme === "dark" ? "white" : "black",
                 }}
               >
-                {item.name}
+                Explore Topics
               </Text>
-            </TouchableOpacity>
-          )}
-        />
-      </View>
+
+              <Text
+                style={{
+                  fontSize: hp("1.5"),
+                  paddingTop: hp("1%"),
+                  color: "grey",
+                }}
+              >
+                View All
+              </Text>
+            </View>
+          </View>
+          <View>
+            <FlatList
+              data={Topics}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              ItemSeparatorComponent={() => (
+                <View style={{ marginHorizontal: wp("1%") }} />
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item, index }) => (
+                <TouchableOpacity
+                  onPress={() => setSelectedTopic(item.name)}
+                  style={{
+                    alignItems: "center",
+                    marginStart: index === 0 ? wp("5%") : 0,
+                    marginEnd: index === Topics.length - 1 ? wp("5%") : 0,
+                  }}
+                >
+                  <View
+                    style={{
+                      borderWidth: wp("0.25%"),
+                      height: hp("10%"),
+                      width: hp("10%"),
+                      borderRadius: wp("50%"),
+                      borderColor:
+                        selectedTopic === item.name
+                          ? colorScheme === "dark"
+                            ? "#a9c700"
+                            : "blue"
+                          : "grey",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      marginVertical: hp("2%"),
+                    }}
+                  >
+                    <Ionicons
+                      name={item.icon as any}
+                      size={wp("10%")}
+                      color={
+                        selectedTopic === item.name
+                          ? colorScheme === "dark"
+                            ? "#a9c700"
+                            : "blue"
+                          : "grey"
+                      }
+                    />
+                  </View>
+                  <Text
+                    style={{
+                      fontWeight: selectedTopic === item.name ? "700" : "300",
+                      color:
+                        selectedTopic === item.name
+                          ? colorScheme === "dark"
+                            ? "#a9c700"
+                            : "blue"
+                          : "grey",
+                    }}
+                  >
+                    {item.name}
+                  </Text>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+          <View style={{ paddingHorizontal: wp("5%"), paddingTop: hp("3%") }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: hp("2.5"),
+                  color: colorScheme === "dark" ? "white" : "black",
+                }}
+              >
+                Recommended Products
+              </Text>
+
+              <Text
+                style={{
+                  fontSize: hp("1.5"),
+                  paddingTop: hp("1%"),
+                  color: "grey",
+                }}
+              >
+                View All
+              </Text>
+            </View>
+          </View>
+          <View
+          // style={{
+          //   paddingStart: wp("5%"),
+          // }}
+          >
+            <FlatList
+              data={product}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              ItemSeparatorComponent={() => (
+                <View style={{ marginHorizontal: wp("1%") }} />
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item, index }) => {
+                // Parse the images array
+
+                return (
+                  <TouchableOpacity
+                    style={{
+                      alignItems: "center",
+                      marginVertical: hp("2%"),
+                      marginStart: index === 0 ? wp("5%") : 0,
+                      marginEnd: index === product.length - 1 ? wp("5%") : 0,
+                    }}
+                    onPress={() =>
+                      navigation.navigate("productDetails", {
+                        product: item,
+                      })
+                    }
+                  >
+                    <Image
+                      placeholder={{
+                        blurhash:
+                          "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[",
+                      }}
+                      style={{
+                        height: hp("20%"),
+                        width: wp("27%"),
+                        borderRadius: wp("5%"),
+                      }}
+                      source={item?.images && item?.images[0]}
+                      contentFit="cover"
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </View>
+          <View style={{ paddingHorizontal: wp("5%") }}>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: hp("2.5"),
+                  color: colorScheme === "dark" ? "white" : "black",
+                }}
+              >
+                Our Stores
+              </Text>
+
+              <Text
+                style={{
+                  fontSize: hp("1.5"),
+                  paddingTop: hp("1%"),
+                  color: "grey",
+                }}
+              >
+                View All
+              </Text>
+            </View>
+          </View>
+          <View
+          // style={{
+          //   paddingStart: wp("5%"),
+          // }}
+          >
+            <FlatList
+              data={product.slice(20, 45)}
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              ItemSeparatorComponent={() => (
+                <View style={{ marginHorizontal: wp("1%") }} />
+              )}
+              keyExtractor={(item, index) => index.toString()}
+              renderItem={({ item, index }) => {
+                // Parse the images array
+
+                return (
+                  <TouchableOpacity
+                    style={{
+                      alignItems: "center",
+                      marginVertical: hp("2%"),
+                      marginStart: index === 0 ? wp("5%") : 0,
+                      marginEnd: index === product.length - 1 ? wp("5%") : 0,
+                    }}
+                  >
+                    <Image
+                      placeholder={{
+                        blurhash:
+                          "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[",
+                      }}
+                      style={{
+                        height: hp("20%"),
+                        width: wp("27%"),
+                        borderRadius: wp("5%"),
+                      }}
+                      source={item?.images && item?.images[0]}
+                      contentFit="cover"
+                    />
+                  </TouchableOpacity>
+                );
+              }}
+            />
+          </View>
+        </View>
+      </ScrollView>
     </View>
   );
 };
