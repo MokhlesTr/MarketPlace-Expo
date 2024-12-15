@@ -1,74 +1,270 @@
-import { Image, StyleSheet, Platform } from 'react-native';
+import {
+  Button,
+  FlatList,
+  Pressable,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  useColorScheme,
+  View,
+} from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from "react-native-responsive-screen";
+import MainButton from "@/components/Button";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import { router } from "expo-router";
+import LottieView from "lottie-react-native";
+import MainInput from "@/components/MainInput";
+import { DarkTheme, DefaultTheme } from "@react-navigation/native";
+import { FontAwesome5, Ionicons } from "@expo/vector-icons";
+const Home = () => {
+  const animationRef = useRef<LottieView>(null);
+  const isPaused = useRef(false);
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+  const [selectedTopic, setSelectedTopic] = useState<string>("Business");
 
-export default function HomeScreen() {
+  const handlePress = () => {
+    console.log("notification Pressed");
+  };
+
+  const [inputValue, setInputValue] = useState("");
+
+  const handleInputChange = (text: string) => {
+    setInputValue(text);
+  };
+
+  const colorScheme = useColorScheme();
+
+  interface TopicsInterface {
+    id: string;
+    name: string;
+    icon: string;
+  }
+  const Topics: TopicsInterface[] = [
+    {
+      id: "Business",
+      name: "Business",
+      icon: "briefcase",
+    },
+    {
+      id: "Tech",
+      name: "Tech",
+      icon: "laptop",
+    },
+    {
+      id: "Sports",
+      name: "Sports",
+      icon: "football",
+    },
+    {
+      id: "World",
+      name: "World",
+      icon: "globe",
+    },
+    {
+      id: "Entertainment",
+      name: "Entertainment",
+      icon: "tv",
+    },
+    {
+      id: "Science",
+      name: "Science",
+      icon: "flask",
+    },
+    {
+      id: "Lifestyle",
+      name: "Lifestyle",
+      icon: "home",
+    },
+
+    {
+      id: "Books",
+      name: "Books",
+      icon: "book",
+    },
+    {
+      id: "Movies",
+      name: "Movies",
+      icon: "film",
+    },
+    {
+      id: "Environment",
+      name: "Environment",
+      icon: "leaf",
+    },
+  ];
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
-}
+    <View style={{ flex: 1 }}>
+      {/* header */}
+      <View
+        style={{
+          paddingHorizontal: wp("5%"),
+          backgroundColor: "#5100de",
+          height: hp("21%"),
+          paddingTop: hp("5%"),
+        }}
+      >
+        <View
+          style={{
+            justifyContent: "space-between",
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <View>
+            <Text
+              style={{
+                color: "white",
+                fontSize: hp("2"),
+              }}
+            >
+              Welcome Home
+            </Text>
+            <Text
+              style={{
+                color: "white",
+                fontSize: hp("3%"),
+                fontFamily: "Bold",
+              }}
+            >
+              Mokhles Tarmiz
+            </Text>
+          </View>
+          <View>
+            <Animated.View
+              entering={FadeInUp.duration(500).delay(2000).springify()}
+            >
+              <Pressable onPress={handlePress}>
+                <LottieView
+                  ref={animationRef}
+                  source={require("@/assets/animations/notifAnimation.json")}
+                  autoPlay
+                  loop
+                  style={{ width: wp("8%"), height: hp("8%") }}
+                />
+              </Pressable>
+            </Animated.View>
+          </View>
+        </View>
+        <View
+          style={{
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {/* <Animated.View
+            entering={FadeInUp.duration(500).delay(300).springify()}
+          > */}
+          <MainInput
+            value={inputValue}
+            onChangeText={handleInputChange}
+            placeholder="Enter something"
+            icon="search"
+            backgroundColorTransparent={true}
+          />
+          {/* </Animated.View> */}
+        </View>
+      </View>
+      <View style={{ paddingHorizontal: wp("5%"), paddingTop: hp("3%") }}>
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: hp("2.5"),
+              color: colorScheme === "dark" ? "white" : "black",
+            }}
+          >
+            Explore Topics
+          </Text>
 
-const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
-});
+          <Text
+            style={{
+              fontSize: hp("1.5"),
+              paddingTop: hp("1%"),
+              color: "grey",
+            }}
+          >
+            View All
+          </Text>
+        </View>
+      </View>
+      <View
+        style={{
+          paddingHorizontal: wp("5%"),
+        }}
+      >
+        <FlatList
+          data={Topics}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          ItemSeparatorComponent={() => (
+            <View style={{ marginHorizontal: wp("1%") }} />
+          )}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              onPress={() => setSelectedTopic(item.name)}
+              style={{ alignItems: "center" }}
+            >
+              <View
+                style={{
+                  borderWidth: wp("0.25%"),
+                  height: hp("10%"),
+                  width: hp("10%"),
+                  borderRadius: wp("50%"),
+                  borderColor:
+                    selectedTopic === item.name
+                      ? colorScheme === "dark"
+                        ? "#a9c700"
+                        : "blue"
+                      : "grey",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  marginVertical: hp("2%"),
+                }}
+              >
+                <Ionicons
+                  name={item.icon as any}
+                  size={wp("10%")}
+                  color={
+                    selectedTopic === item.name
+                      ? colorScheme === "dark"
+                        ? "#a9c700"
+                        : "blue"
+                      : "grey"
+                  }
+                />
+              </View>
+              <Text
+                style={{
+                  fontWeight: selectedTopic === item.name ? "700" : "300",
+                  color:
+                    selectedTopic === item.name
+                      ? colorScheme === "dark"
+                        ? "#a9c700"
+                        : "blue"
+                      : "grey",
+                }}
+              >
+                {item.name}
+              </Text>
+            </TouchableOpacity>
+          )}
+        />
+      </View>
+    </View>
+  );
+};
+
+export default Home;
+
+const styles = StyleSheet.create({});
