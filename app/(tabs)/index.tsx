@@ -24,6 +24,7 @@ import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native"; // Import useNavigation hook
+import { DarkModeIcon, DarkModeIcon2 } from "@/assets/svgs/Svg";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -42,7 +43,11 @@ const Home = () => {
     setInputValue(text);
   };
 
-  const colorScheme = useColorScheme();
+  useColorScheme();
+  const [colorScheme, setColorScheme] = useState(useColorScheme());
+  const toggleDarkMode = () => {
+    setColorScheme(colorScheme === "dark" ? "light" : "dark");
+  };
 
   interface TopicsInterface {
     id: string;
@@ -119,7 +124,12 @@ const Home = () => {
   }, []);
 
   return (
-    <View style={{ flex: 1 }}>
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colorScheme === "dark" ? "black" : "white",
+      }}
+    >
       {/* header */}
       <View
         style={{
@@ -155,18 +165,34 @@ const Home = () => {
               Mokhles Tarmiz
             </Text>
           </View>
-          <View>
-            <Animated.View entering={FadeInUp.delay(500).springify()}>
-              <Pressable onPress={handlePress}>
-                <LottieView
-                  ref={animationRef}
-                  source={require("@/assets/animations/notifAnimation.json")}
-                  autoPlay
-                  loop
-                  style={{ width: wp("8%"), height: hp("8%") }}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              gap: wp("2%"),
+            }}
+          >
+            <View>
+              <Pressable onPress={toggleDarkMode}>
+                <DarkModeIcon2
+                  color={colorScheme === "dark" ? "black" : "white"}
                 />
               </Pressable>
-            </Animated.View>
+            </View>
+            <View>
+              <Animated.View entering={FadeInUp.delay(500).springify()}>
+                <Pressable onPress={handlePress}>
+                  <LottieView
+                    ref={animationRef}
+                    source={require("@/assets/animations/notifAnimation.json")}
+                    // autoPlay
+                    // loop
+                    style={{ width: wp("8%"), height: hp("8%") }}
+                  />
+                </Pressable>
+              </Animated.View>
+            </View>
           </View>
         </View>
         <View
