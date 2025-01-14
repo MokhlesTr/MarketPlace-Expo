@@ -50,16 +50,6 @@ const Welcome = () => {
       <Animated.View entering={FadeInUp.duration(500).delay(300).springify()}>
         <Text
           style={{
-            color: "#5100de",
-            textAlign: "center",
-            fontSize: hp("6%"),
-            fontFamily: "Bold",
-          }}
-        >
-          Hello Mokh
-        </Text>
-        <Text
-          style={{
             color: "grey",
             textAlign: "center",
             fontSize: hp("2%"),

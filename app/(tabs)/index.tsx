@@ -51,7 +51,7 @@ const Home = () => {
     const listener = Appearance.addChangeListener(({ colorScheme }) => {
       setColorScheme(colorScheme);
     });
-    console.log(colorScheme);
+    // console.log(colorScheme);
 
     return () => listener.remove();
   }, [colorScheme]);
@@ -139,11 +139,15 @@ const Home = () => {
       className={`flex-1 ${colorScheme === "dark" ? "bg-black" : "bg-white"}`}
     >
       {/* header */}
-      <View className="px-5 bg-blue-900 h-[21%] pt-11">
+      <View className="px-5 bg-blue-dark  h-[21%] pt-11  ">
         <View className="justify-between flex-row items-center">
           <View>
-            <Text className="text-white text-lg ">Welcome Home</Text>
-            <Text className="text-white text-xl font-bold">Mokhles Tarmiz</Text>
+            <Text className="text-white text-lg font-jersey ">
+              Welcome Home
+            </Text>
+            <Text className="text-white text-xl font-jersey">
+              Mokhles Tarmiz
+            </Text>
           </View>
           <View className="flex-row justify-center items-center gap-[1%]">
             <View>

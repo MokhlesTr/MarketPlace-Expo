@@ -21,6 +21,7 @@ export default function RootLayout() {
   const [loaded] = useFonts({
     SpaceMono: require("../assets/fonts/SpaceMono-Regular.ttf"),
     Bold: require("../assets/fonts/Barlow-Bold.ttf"),
+    abc: require("../assets/fonts/Barlow-Bold.ttf"),
   });
 
   useEffect(() => {
