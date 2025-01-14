@@ -14,17 +14,16 @@ import {
   widthPercentageToDP as wp,
   heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import MainButton from "@/components/Button";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 import { router, useRouter } from "expo-router";
 import LottieView from "lottie-react-native";
-import MainInput from "@/components/MainInput";
 import { DarkTheme, DefaultTheme } from "@react-navigation/native";
 import { FontAwesome5, Ionicons } from "@expo/vector-icons";
 import axios from "axios";
 import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native"; // Import useNavigation hook
-import { DarkModeIcon, DarkModeIcon2 } from "@/assets/svgs/Svg";
+import { DarkModeIcon2 } from "../../assets/svgs/Svg";
+import MainInput from "../../components/MainInput";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -146,13 +145,13 @@ const Home = () => {
             <View>
               <Animated.View entering={FadeInUp.delay(500).springify()}>
                 <Pressable onPress={handlePress}>
-                  <LottieView
+                  {/* <LottieView
                     ref={animationRef}
                     source={require("@/assets/animations/notifAnimation.json")}
                     autoPlay
                     loop
                     style={{ width: wp("8%"), height: hp("8%") }}
-                  />
+                  /> */}
                 </Pressable>
               </Animated.View>
             </View>

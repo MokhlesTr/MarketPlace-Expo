@@ -7,13 +7,8 @@ import {
 } from "react-native-responsive-screen";
 import { Image, ImageBackground } from "expo-image";
 import { useGlobalSearchParams, useNavigation } from "expo-router";
-import {
-  ArrowLeftIcon,
-  ArrowLeftStoreIcon,
-  HeartIcon2,
-  HeartIcon3,
-} from "@/assets/svgs/Svg";
-import { SearchParams } from "expo-router";
+
+import { ArrowLeftStoreIcon, HeartIcon3 } from "../assets/svgs/Svg";
 
 const productDetails = () => {
   const route = useRoute();
