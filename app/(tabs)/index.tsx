@@ -16,7 +16,7 @@ import {
 } from "react-native-responsive-screen";
 import MainButton from "@/components/Button";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
-import { router } from "expo-router";
+import { router, useRouter } from "expo-router";
 import LottieView from "lottie-react-native";
 import MainInput from "@/components/MainInput";
 import { DarkTheme, DefaultTheme } from "@react-navigation/native";
@@ -49,6 +49,7 @@ const Home = () => {
     setColorScheme(colorScheme === "dark" ? "light" : "dark");
   };
 
+  const router = useRouter();
   interface TopicsInterface {
     id: string;
     name: string;
@@ -113,7 +114,7 @@ const Home = () => {
   const fetchProduct = async () => {
     try {
       const res = await axios.get("https://api.escuelajs.co/api/v1/products");
-      setProduct(res.data.slice(0, 46)); // Use `res.data` to extract the actual array of products
+      setProduct(res.data.slice(2, 46));
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -125,54 +126,16 @@ const Home = () => {
 
   return (
     <View
-      style={{
-        flex: 1,
-        backgroundColor: colorScheme === "dark" ? "black" : "white",
-      }}
+      className={`flex-1 ${colorScheme === "dark" ? "bg-black" : "bg-white"}`}
     >
       {/* header */}
-      <View
-        style={{
-          paddingHorizontal: wp("5%"),
-          backgroundColor: "#5100de",
-          height: hp("21%"),
-          paddingTop: hp("5%"),
-        }}
-      >
-        <View
-          style={{
-            justifyContent: "space-between",
-            flexDirection: "row",
-            alignItems: "center",
-          }}
-        >
+      <View className="px-5 bg-blue-900 h-[21%] pt-11">
+        <View className="justify-between flex-row items-center">
           <View>
-            <Text
-              style={{
-                color: "white",
-                fontSize: hp("2"),
-              }}
-            >
-              Welcome Home
-            </Text>
-            <Text
-              style={{
-                color: "white",
-                fontSize: hp("3%"),
-                fontFamily: "Bold",
-              }}
-            >
-              Mokhles Tarmiz
-            </Text>
+            <Text className="text-white text-lg ">Welcome Home</Text>
+            <Text className="text-white text-xl font-bold">Mokhles Tarmiz</Text>
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: wp("2%"),
-            }}
-          >
+          <View className="flex-row justify-center items-center gap-[1%]">
             <View>
               <Pressable onPress={toggleDarkMode}>
                 <DarkModeIcon2
@@ -186,8 +149,8 @@ const Home = () => {
                   <LottieView
                     ref={animationRef}
                     source={require("@/assets/animations/notifAnimation.json")}
-                    // autoPlay
-                    // loop
+                    autoPlay
+                    loop
                     style={{ width: wp("8%"), height: hp("8%") }}
                   />
                 </Pressable>
@@ -195,12 +158,7 @@ const Home = () => {
             </View>
           </View>
         </View>
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
+        <View className="justify-center items-center">
           {/* <Animated.View
             entering={FadeInUp.duration(500).delay(300).springify()}
           > */}
@@ -215,15 +173,9 @@ const Home = () => {
         </View>
       </View>
       <ScrollView>
-        <View style={{ paddingBottom: hp("10%") }}>
-          <View style={{ paddingHorizontal: wp("5%"), paddingTop: hp("3%") }}>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
+        <View className="pb-32">
+          <View className="px-5 pt-6">
+            <View className="flex-row justify-between items-center">
               <Text
                 style={{
                   fontSize: hp("2.5"),
@@ -233,15 +185,7 @@ const Home = () => {
                 Explore Topics
               </Text>
 
-              <Text
-                style={{
-                  fontSize: hp("1.5"),
-                  paddingTop: hp("1%"),
-                  color: "grey",
-                }}
-              >
-                View All
-              </Text>
+              <Text className="text-sm pt-1 text-slate-400">View All</Text>
             </View>
           </View>
           <View>
@@ -325,15 +269,7 @@ const Home = () => {
                 Recommended Products
               </Text>
 
-              <Text
-                style={{
-                  fontSize: hp("1.5"),
-                  paddingTop: hp("1%"),
-                  color: "grey",
-                }}
-              >
-                View All
-              </Text>
+              <Text className="text-sm pt-1 text-slate-400">View All</Text>
             </View>
           </View>
           <View
@@ -361,23 +297,19 @@ const Home = () => {
                       marginEnd: index === product.length - 1 ? wp("5%") : 0,
                     }}
                     onPress={() =>
-                      navigation.navigate("productDetails", {
-                        product: item,
+                      // navigation.navigate("productDetails", {
+                      //   product: item,
+                      // })
+                      router.navigate({
+                        pathname: "/productDetails",
+                        params: { product: JSON.stringify(item) },
                       })
                     }
                   >
                     <Image
-                      placeholder={{
-                        blurhash:
-                          "|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[",
-                      }}
-                      style={{
-                        height: hp("20%"),
-                        width: wp("27%"),
-                        borderRadius: wp("5%"),
-                      }}
+                      className="h-44 w-28 rounded-2xl"
+                      //only with animated.Image
                       source={item?.images && item?.images[0]}
-                      contentFit="cover"
                     />
                   </TouchableOpacity>
                 );
@@ -401,15 +333,7 @@ const Home = () => {
                 Our Stores
               </Text>
 
-              <Text
-                style={{
-                  fontSize: hp("1.5"),
-                  paddingTop: hp("1%"),
-                  color: "grey",
-                }}
-              >
-                View All
-              </Text>
+              <Text className="text-sm pt-1 text-slate-400">View All</Text>
             </View>
           </View>
           <View
