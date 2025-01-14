@@ -137,10 +137,11 @@ const Home = () => {
   }, []);
 
   const a = false;
+  let [isPressed, setIsPressed] = useState(false);
   return (
     <View
       // className={`flex-1 ${colorScheme === "dark" ? "bg-black" : "bg-white"}`}
-      className="flex-1  bg-white dark:bg-black "
+      className="flex-1  bg-white dark:bg-black     "
     >
       {/* header */}
       <Pressable className="  px-5 bg-pink-600 active:opacity-75 transition-opacity duration-[3s] dark:bg-yellow-600 active:dark:bg-yellow-800  h-[21%] pt-11">
@@ -199,6 +200,19 @@ const Home = () => {
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="pb-32">
           <View className="px-5 pt-6">
+            <View className="p-4">
+              {/* condition styling */}
+              <Pressable
+                onPress={() => setIsPressed(!isPressed)}
+                className={`p-2 rounded-lg ${
+                  isPressed ? "bg-gray-300" : "bg-blue-500"
+                }   `}
+              >
+                <Text className={`${isPressed ? "text-black" : "text-white"}`}>
+                  Press Me
+                </Text>
+              </Pressable>
+            </View>
             <View className="flex-row justify-between items-center">
               <Text
                 style={{
