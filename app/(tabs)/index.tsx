@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   useColorScheme,
+  // useColorScheme,
   View,
 } from "react-native";
 import React, { useEffect, useRef, useState } from "react";
@@ -25,6 +26,7 @@ import { Image } from "expo-image";
 import { useNavigation } from "@react-navigation/native"; // Import useNavigation hook
 import { DarkModeIcon2 } from "../../assets/svgs/Svg";
 import MainInput from "../../components/MainInput";
+// import LinearGradient from "react-native-linear-gradient";
 
 const Home = () => {
   const navigation = useNavigation();
@@ -136,16 +138,19 @@ const Home = () => {
 
   return (
     <View
-      className={`flex-1 ${colorScheme === "dark" ? "bg-black" : "bg-white"}`}
+      // className={`flex-1 ${colorScheme === "dark" ? "bg-black" : "bg-white"}`}
+      className="flex-1  bg-white dark:bg-black "
     >
       {/* header */}
-      <View className="px-5 bg-blue-dark  h-[21%] pt-11  ">
+      <Pressable className="  px-5 bg-pink-600 active:opacity-75 transition-opacity duration-[3s] dark:bg-yellow-600 active:dark:bg-yellow-800  h-[21%] pt-11">
+        {/* <View className="px-5 bg-gradient-to-r from-indigo-500 via-yellow-500 to-pink-700 h-[21%] pt-11  "> */}
+
         <View className="justify-between flex-row items-center">
           <View>
-            <Text className="text-white text-lg font-jersey ">
+            <Text className="text-white text-lg font-jersey  ">
               Welcome Home
             </Text>
-            <Text className="text-white text-xl font-jersey">
+            <Text className="text-white text-xl  font-bold">
               Mokhles Tarmiz
             </Text>
           </View>
@@ -185,7 +190,7 @@ const Home = () => {
           />
           {/* </Animated.View> */}
         </View>
-      </View>
+      </Pressable>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View className="pb-32">
           <View className="px-5 pt-6">
