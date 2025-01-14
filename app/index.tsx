@@ -71,7 +71,7 @@ const Welcome = () => {
 
       <Animated.View entering={FadeInUp.duration(500).delay(500).springify()}>
         <MainButton
-          onPress={() => router.push("/(tabs)")}
+          onPress={() => router.replace("/(tabs)")}
           text="Explore"
           backgroundColor="#5100de"
           width={wp("70%")}

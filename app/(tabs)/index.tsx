@@ -1,4 +1,5 @@
 import {
+  Appearance,
   Button,
   FlatList,
   Pressable,
@@ -43,11 +44,21 @@ const Home = () => {
   };
 
   useColorScheme();
-  const [colorScheme, setColorScheme] = useState(useColorScheme());
-  const toggleDarkMode = () => {
-    setColorScheme(colorScheme === "dark" ? "light" : "dark");
-  };
+  const systemColorScheme = useColorScheme();
+  const [colorScheme, setColorScheme] = useState(systemColorScheme);
 
+  useEffect(() => {
+    const listener = Appearance.addChangeListener(({ colorScheme }) => {
+      setColorScheme(colorScheme);
+    });
+    console.log(colorScheme);
+
+    return () => listener.remove();
+  }, [colorScheme]);
+  const toggleDarkMode = () => {
+    const newColorScheme = colorScheme === "dark" ? "light" : "dark";
+    setColorScheme(newColorScheme);
+  };
   const router = useRouter();
   interface TopicsInterface {
     id: string;
@@ -171,7 +182,7 @@ const Home = () => {
           {/* </Animated.View> */}
         </View>
       </View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View className="pb-32">
           <View className="px-5 pt-6">
             <View className="flex-row justify-between items-center">

@@ -1,5 +1,11 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
-import React from "react";
+import {
+  Pressable,
+  StyleSheet,
+  Text,
+  useColorScheme,
+  View,
+} from "react-native";
+import React, { useState } from "react";
 import { useRoute } from "@react-navigation/native";
 import {
   heightPercentageToDP as hp,
@@ -19,8 +25,15 @@ const productDetails = () => {
 
   // console.log(product);
   const navigation = useNavigation();
+
+  useColorScheme();
+  const systemColorScheme = useColorScheme();
+  const [colorScheme, setColorScheme] = useState(systemColorScheme);
+
   return (
-    <View style={{ backgroundColor: "white", flex: 1 }}>
+    <View
+      className={`flex-1 ${colorScheme === "dark" ? "bg-black" : "bg-white"}`}
+    >
       <Image source={productData?.image} />
 
       <ImageBackground
@@ -55,45 +68,50 @@ const productDetails = () => {
       >
         <Text
           style={{
-            color: "black",
             fontSize: hp("2.1%"),
             fontFamily: "SpaceMono",
             paddingBottom: hp("3%"),
           }}
+          className={colorScheme === "dark" ? "text-white" : "text-black"}
         >
           {productData?.title}
         </Text>
         <Text
           style={{
-            color: "black",
             fontSize: hp("2.1%"),
             fontFamily: "SpaceMono",
             paddingBottom: hp("1%"),
           }}
+          className={colorScheme === "dark" ? "text-white" : "text-black"}
         >
           Price:
         </Text>
         <Text
           style={{
-            color: "black",
             fontSize: hp("1.6%"),
             paddingBottom: hp("3%"),
           }}
+          className={colorScheme === "dark" ? "text-white" : "text-black"}
         >
           {productData?.price}
         </Text>
 
         <Text
           style={{
-            color: "black",
             fontSize: hp("2.1%"),
             fontFamily: "SpaceMono",
             paddingBottom: hp("1%"),
           }}
+          className={colorScheme === "dark" ? "text-white" : "text-black"}
         >
           Description:
         </Text>
-        <Text style={{ fontSize: hp("1.6%") }}>{productData?.description}</Text>
+        <Text
+          style={{ fontSize: hp("1.6%") }}
+          className={colorScheme === "dark" ? "text-white" : "text-black"}
+        >
+          {productData?.description}
+        </Text>
       </View>
     </View>
   );
