@@ -145,13 +145,13 @@ const Home = () => {
             <View>
               <Animated.View entering={FadeInUp.delay(500).springify()}>
                 <Pressable onPress={handlePress}>
-                  {/* <LottieView
+                  <LottieView
                     ref={animationRef}
                     source={require("@/assets/animations/notifAnimation.json")}
                     autoPlay
                     loop
                     style={{ width: wp("8%"), height: hp("8%") }}
-                  /> */}
+                  />
                 </Pressable>
               </Animated.View>
             </View>
