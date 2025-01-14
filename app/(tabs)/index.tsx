@@ -136,6 +136,7 @@ const Home = () => {
     fetchProduct();
   }, []);
 
+  const a = false;
   return (
     <View
       // className={`flex-1 ${colorScheme === "dark" ? "bg-black" : "bg-white"}`}
@@ -147,7 +148,11 @@ const Home = () => {
 
         <View className="justify-between flex-row items-center">
           <View>
-            <Text className="text-white text-lg font-jersey  ">
+            <Text
+              className={`text-white  font-jersey ${
+                a ? "text-lg" : "text-sm"
+              }   `}
+            >
               Welcome Home
             </Text>
             <Text className="text-white text-xl  font-bold">
